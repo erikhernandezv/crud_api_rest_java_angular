@@ -16,6 +16,8 @@ export class CformComponent implements OnInit {
   public cliente: Cliente = new Cliente();
   private title: string = "Crear Cliente";
 
+  public errores: string[];
+
   constructor( private clienteService: ClienteService,
                private router: Router,
                private activateRouter: ActivatedRoute ) { }
@@ -38,8 +40,14 @@ export class CformComponent implements OnInit {
       response => {
         this.router.navigate(['/clientes'])
         swal.fire('New Customer', `Customer ${this.cliente.name} created successfully!`, 'success')
+      },
+      err => {
+        this.errores = err.error.errors as string[];
+        console.log("Code error from BackEnd " + err.status);
+        console.log(err.error.errors);
+
       }
-    );
+    )
   }
 
   update(): void{
@@ -47,6 +55,12 @@ export class CformComponent implements OnInit {
         .subscribe( cliente => {
           this.router.navigate(['/clientes'])
           swal.fire('Update Client', `Customer ${cliente.name} updated successfully!`, 'success')
+        },
+        err => {
+          this.errores = err.error.errors as string[];
+          console.log("Code error from BackEnd" + err.status);
+          console.log(err.error.errors);
+
         })
   }
 
