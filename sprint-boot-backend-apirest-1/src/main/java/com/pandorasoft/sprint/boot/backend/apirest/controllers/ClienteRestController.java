@@ -1,10 +1,8 @@
 package com.pandorasoft.sprint.boot.backend.apirest.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -14,7 +12,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +64,7 @@ public class ClienteRestController {
 		Cliente clienteNew = null;
 		Map<String, Object> response = new HashMap<>();
 		
-		/*Validamos si llegan los datos con errores*/
+		/*Validamos si llegan los datos con errores, podemos formatear aqui la salida de nuestros errores*/
 		if ( result.hasErrors() ) {
 			List<String> errors = result.getFieldErrors()
 					.stream()

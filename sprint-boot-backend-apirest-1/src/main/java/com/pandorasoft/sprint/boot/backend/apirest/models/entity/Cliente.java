@@ -28,18 +28,18 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
-	@NotEmpty
-	@Size(min=4, max=60)
+	@NotEmpty(message = "no puede ser vacío")
+	@Size(min=4, max=60, message = "el tamaño tiene que estar entre 4 y 60 caracteres.")
 	@Column(nullable = false)
 	private String name;
 	
-	@NotEmpty
-	@Size(min=4, max=60)
+	@NotEmpty(message = "no puede ser vacío")
+	@Size(min=4, max=60, message = "el tamaño tiene que estar entre 4 y 60 caracteres.")
 	@Column(nullable = false)
 	private String lastname;
 	
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "no puede ser vacío")
+	@Email(message = "ingrese un correo electronico valido")
 	@Column(nullable = false, unique=true)
 	private String email;
 	

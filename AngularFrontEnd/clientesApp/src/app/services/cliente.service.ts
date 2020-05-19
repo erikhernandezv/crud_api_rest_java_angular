@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CUSTOMERS } from '../ado/clientes.json';
 import { Cliente } from '../class/cliente';
+import { DatePipe } from '@angular/common';
 import { of, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -23,7 +24,22 @@ export class ClienteService {
   // El observable esta escuchando un posible cambio en el objeto CLiente
   getCustomers(): Observable<Cliente[]>{
     return this.http.get(this.urlEndPoint).pipe(
-      map( response => response as Cliente[] )
+      map( response => {
+
+        let clientes = response as Cliente[];
+
+        //Aqui convertimos el campo nombre a mayuscula para mostrarlo en la salida
+        return clientes.map(cliente => {
+          cliente.name = cliente.name.toUpperCase();
+          let datePipe = new DatePipe('en_US');
+          //Salida fecha y hora normal ej: 2020-05-18 05:58:35
+          //cliente.createAt = datePipe.transform(cliente.createAt,'yyyy-MM-dd HH:MM:ss');
+          //salida Monday 01, January 2020
+          cliente.createAt = datePipe.transform(cliente.createAt,'EEEE dd, MMMM yyyy HH:MM:ss');
+          return cliente;
+        })
+
+       })
     );
   }
 
@@ -32,7 +48,7 @@ export class ClienteService {
       map( (response:any) => response.cliente as Cliente),
       catchError(e=>{
 
-        if(e.status==400){
+        if(e.status===400){
            return throwError(e);
         }
 
